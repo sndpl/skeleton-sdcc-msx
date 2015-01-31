@@ -5,7 +5,7 @@ Will create a "hello world" program running on MSX Z80 platform and emulated har
   * [hex2bin](http://sourceforge.net/projects/hex2bin/) (1)
   * [sdcc](http://sdcc.sourceforge.net/)
 
-(1) To compile hex2bin, download the source. Extract the archive and delete the hex2bin, mot2bin and hex2bin.1 files (they are for Linux). Then go to the directory on the command line and rebuild the binaries for OS X by typing: ```make```
+(1) To compile hex2bin on OSX, download the source. Extract the archive and delete the hex2bin, mot2bin and hex2bin.1 files (they are for Linux). Then go to the directory on the command line and rebuild the binaries for OS X by typing: ```make```
 To do a system-wide install: ```make install MAN_DIR=/usr/local/share/man/man1```
 
 
