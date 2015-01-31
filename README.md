@@ -36,6 +36,6 @@ And this will result in a main.com file which can be run under MSX-DOS.
 
 ## Thanks
 - [Avelino Herrera Morales](http://msx.atlantes.org/index_en.html]) for providing the basic files needed to create a MSX-DOS executable.
-- Laurens Holst for helping with hex2bin.
+- [Laurens Holst](http://map.grauw.nl/) for helping with hex2bin.
 
 
