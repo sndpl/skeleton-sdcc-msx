@@ -17,7 +17,13 @@ make build    ;Build the final file (ROM|COM)
 make emulator ;Launch the final file with openMSX
 ```
 
-Check the makefile to select the correct startup file (ROM/COM).
+Check the makefile to select the correct startup file (ROM/COM). Current supported startup list:
+
+- ROM 16kb (init: 0x4000)
+- ROM 16kb (init: 0x8000)
+- ROM 32Kb (init: 0x4000)
+- MSX-DOS COM file (simple main)
+- MSX-DOS COM file (main with arguments)
 
 ## Thanks
 - [Avelino Herrera Morales](http://msx.atlantes.org/index_en.html) for providing the basic files needed to create a MSX-DOS executable.
