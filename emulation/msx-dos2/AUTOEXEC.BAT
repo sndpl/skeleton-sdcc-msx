@@ -1,0 +1,3 @@
+mode 80
+B:
+echo BOOT COMPLETED

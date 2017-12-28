@@ -1,7 +1,5 @@
-
-
-#include "../include/types.h"
-#include "../include/conio.h"
+#include "../includes/types.h"
+#include "../includes/conio.h"
 
 
 void puts(char *s) {
@@ -54,5 +52,3 @@ void putdec8(uint8_t v) {
 void putdec16(uint16_t v) {
 	putdec(10000, v);
 }
-
-
