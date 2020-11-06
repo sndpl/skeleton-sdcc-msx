@@ -48,6 +48,7 @@ $(SOURCES):
 build: main.ihx
 		@echo "Building $(OUTFILE)..."
 		@$(HEXBIN) main.ihx
+		mkdir -p bin
 		@mv main.bin bin/${OUTFILE}
 		@echo "Done."
 
