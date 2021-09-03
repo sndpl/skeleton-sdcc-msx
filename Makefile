@@ -12,7 +12,7 @@ SRCDIR = src
 
 # See startup files for the correct ADDR_CODE and ADDR_DATA
 CRT0 = crt0msx_msxdos_advanced.s
-ADDR_CODE = 0x0107
+ADDR_CODE = 0x0178
 ADDR_DATA = 0
 
 VERBOSE = -V
