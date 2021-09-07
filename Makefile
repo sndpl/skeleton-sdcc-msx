@@ -17,7 +17,7 @@ ADDR_DATA = 0
 
 VERBOSE = -V
 CCFLAGS = $(VERBOSE) $(PLATFORM) --code-loc $(ADDR_CODE) --data-loc $(ADDR_DATA) \
-          --no-std-crt0 --opt-code-size --out-fmt-ihx
+          --no-std-crt0 --opt-code-size --out-fmt-ihx --std-c99
 OBJECTS = $(CRT0) putchar.s getchar.s dos.s conio.c
 SOURCES = main.c
 OUTFILE = main.com
