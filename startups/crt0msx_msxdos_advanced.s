@@ -10,7 +10,7 @@
         ;            (make sure that X>0x100+code size)
         ;
         ;    Patched by algodesigner to support "int main(int argc, char ** arv)"
-        ;    to better aling with the C standard. 09/2021
+        ;    to better align with the C standard. 09/2021
         ;
         ;    Important: argv[0] contains the first argument if it's passed in
         ;    as opposed to the full application name. I will probably fork
