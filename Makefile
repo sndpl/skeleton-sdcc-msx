@@ -1,7 +1,7 @@
 CC = sdcc
 ASM = sdasz80
 PLATFORM = -mz80
-EMULATOR = /Applications/openMSX.app/Contents/MacOS/openmsx -machine Philips_NMS_8255 -ext msxdos2 -diska emulation/msx-dos2/ -script emulation/boot.tcl -diskb bin/
+EMULATOR = openmsx -machine Philips_NMS_8255 -ext msxdos2 -diska emulation/msx-dos2/ -diskb bin/ -script emulation/boot.tcl
 #EMULATOR = /Applications/openMSX.app/Contents/MacOS/openmsx -machine C-BIOS_MSX2 -carta
 HEXBIN = hex2bin
 
@@ -57,7 +57,7 @@ clean:
 		rm -f *.asm *.bin *.cdb *.ihx *.lk *.lst *.map *.mem *.omf *.rst *.rel *.sym *.noi *.hex *.lnk *.dep
 		rm -f bin/$(OUTFILE)
 
-emulator: $(OUTFILE)
+emulator:
 		$(EMULATOR) &
 		#For ROM use:
 		#$(EMULATOR) $(OUTFILE) &
