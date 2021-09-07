@@ -1,4 +1,4 @@
-# Skeleton C project for MSX
+# Skeleton C project for MSX (SDCC)
 Will create a simple program running on MSX Z80 platform and emulated hardware. Following packages are required:
 
   * make
