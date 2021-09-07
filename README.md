@@ -1,5 +1,5 @@
 # Skeleton C project for MSX
-Will create a "hello world" program running on MSX Z80 platform and emulated hardware. Following packages are required:
+Will create a simple program running on MSX Z80 platform and emulated hardware. Following packages are required:
 
   * make
   * [hex2bin](http://sourceforge.net/projects/hex2bin/) (1)
@@ -24,6 +24,8 @@ Check the makefile to select the correct startup file (ROM/COM). Current support
 - ROM 32Kb (init: 0x4000)
 - MSX-DOS COM file (simple main)
 - MSX-DOS COM file (main with arguments)
+
+__The "main with arguments" runtime header has been fixed to support stardard C argument ordering. The application name is still not passed in to the application in the first argument. This will have to be fixed. Stay tuned.__
 
 ## Thanks
 - [Avelino Herrera Morales](http://msx.atlantes.org/index_en.html) for providing the basic files needed to create a MSX-DOS executable.
