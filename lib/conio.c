@@ -1,5 +1,5 @@
-#include "../includes/types.h"
-#include "../includes/conio.h"
+#include "../include/types.h"
+#include "../include/conio.h"
 
 
 void puts(char *s) {

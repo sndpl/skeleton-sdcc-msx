@@ -6,8 +6,8 @@ EMULATOR = openmsx -machine Philips_NMS_8255 -ext msxdos2 -diska emulation/msx-d
 HEXBIN = hex2bin
 
 STARTUPDIR = startups
-INCLUDEDIR = includes
-LIBDIR = libs
+INCLUDEDIR = include
+LIBDIR = lib
 SRCDIR = src
 
 # See startup files for the correct ADDR_CODE and ADDR_DATA
