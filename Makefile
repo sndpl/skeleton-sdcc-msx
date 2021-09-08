@@ -5,7 +5,7 @@ EMULATOR = openmsx -machine Philips_NMS_8255 -ext msxdos2 -diska emulation/msx-d
 #EMULATOR = /Applications/openMSX.app/Contents/MacOS/openmsx -machine C-BIOS_MSX2 -carta
 HEXBIN = hex2bin
 
-STARTUPDIR = startups
+STARTUPDIR = crt0msx
 INCLUDEDIR = include
 LIBDIR = lib
 SRCDIR = src
