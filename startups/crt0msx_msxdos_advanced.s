@@ -1,5 +1,7 @@
         ;--- crt0.s for MSX-DOS - by Konami Man, 11/2004
-        ;    Advanced version: allows "int main(char** argv, int argc)",
+        ;    Modified by algodesigner, 09/2021
+        ;
+        ;    Advanced version: allows "int main(int argc, char** argv)",
         ;    the returned value will be passed to _TERM on DOS 2,
         ;    argv is always 0x100 (the startup code memory is recycled).
         ;    Overhead: 112 bytes.
@@ -8,13 +10,6 @@
         ;    X=0  -> global vars will be placed immediately after code
         ;    X!=0 -> global vars will be placed at address X
         ;            (make sure that X>0x100+code size)
-        ;
-        ;    Patched by algodesigner to support "int main(int argc, char ** arv)"
-        ;    to better aling with the C standard. 09/2021
-        ;
-        ;    Important: argv[0] contains the first argument if it's passed in
-        ;    as opposed to the full application name. I will probably fork
-        ;    this loader to address that.
 
     .globl  _main
 
@@ -30,12 +25,23 @@ init:   call    gsinit
         ;    and terminate each parameter with 0.
         ;    MSX-DOS places the command line length at 0x80 (one byte),
         ;    and the command line itself at 0x81 (up to 127 characters).
+        
+        ; Retrieve the full program path, our first parameter
 
-        ;* Check if there are any parameters at all
+        ld      hl,#0x100
+        ld      de,#_HEAP_start
+        ld      (hl),e
+        inc     hl
+        ld      (hl),d
+        ld      hl,#envvar
+        ld      bc,#0xff6b
+        call    #5
+
+        ;* Check if there are any command line parameters
 
         ld      a,(#0x80)
         or      a
-        ld      c,#0
+        ld      c,#1            ; c <- number of parameters
         jr      z,cont
         
         ;* Terminate command line with 0
@@ -58,13 +64,13 @@ init:   call    gsinit
         ld      de,#0xC000
         ld      bc,#parloopend-#parloop
         ldir
-        
+
         ;* Initialize registers and jump to the loop routine
         
         ld      hl,#0x81        ;Command line pointer
-        ld      c,#0            ;Number of params found
-        ld      ix,#0x100       ;Params table pointer
-        
+        ld      c,#1            ;Number of params found
+        ld      ix,#0x102       ;Params table pointer +2 as the first entry
+                                ;is taken by the program name
         ld      de,#cont        ;To continue execution at "cont"
         push    de              ;when the routine RETs
         jp      0xC000
@@ -126,7 +132,7 @@ cont:   ld      hl,#0x100
 
         ;--- Step 3: Call the "main" function
     push de
-    ld de,#_HEAP_start + 256
+    ld de,#_HEAP_start + 256    ; 256 bytes reserved for the program name
     ld (_heap_top),de
     pop de
 
