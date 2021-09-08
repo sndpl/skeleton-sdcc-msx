@@ -69,11 +69,14 @@ init:   call    gsinit
         push    de              ;when the routine RETs
         jp      0xC000
         
+envvar: .asciz  "PROGRAM"
+
         ;>>> Command line processing routine begin
         
         ;* Loop over the command line: skip spaces
         
-parloop: ld      a,(hl)
+parloop:
+        ld      a,(hl)
         or      a       ;Command line end found?
         ret     z
 
@@ -123,7 +126,7 @@ cont:   ld      hl,#0x100
 
         ;--- Step 3: Call the "main" function
     push de
-    ld de,#_HEAP_start
+    ld de,#_HEAP_start + 256
     ld (_heap_top),de
     pop de
 
