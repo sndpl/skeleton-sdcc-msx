@@ -1,17 +1,18 @@
-	;--- crt0.s for MSX-DOS - by Konami Man, 11/2004
-	;    Advanced version: allows "int main(char** argv, int argc)",
-	;    the returned value will be passed to _TERM on DOS 2,
-	;    argv is always 0x100 (the startup code memory is recycled).
-        ;    Overhead: 112 bytes.
-	;
-        ;    Compile programs with --code-loc 0x170 --data-loc X
+        ;--- crt0.s for MSX-DOS - by Konami Man, 11/2004
+        ;    Modified by algodesigner, 09/2021
+        ;
+        ;    Advanced version: allows "int main(int argc, char** argv)",
+        ;    the returned value will be passed to _TERM on DOS 2,
+        ;    argv is always 0x100 (the startup code memory is recycled).
+        ;
+        ;    Compile programs with --code-loc 0x192 --data-loc X
         ;    X=0  -> global vars will be placed immediately after code
         ;    X!=0 -> global vars will be placed at address X
         ;            (make sure that X>0x100+code size)
 
-	.globl	_main
+        .globl  _main
 
-	.area _HEADER (ABS)
+        .area _HEADER (ABS)
 
         .org    0x0100  ;MSX-DOS .COM programs start address
 
@@ -23,12 +24,23 @@ init:   call    gsinit
         ;    and terminate each parameter with 0.
         ;    MSX-DOS places the command line length at 0x80 (one byte),
         ;    and the command line itself at 0x81 (up to 127 characters).
+        
+        ; Retrieve the full program path, our first parameter
 
-        ;* Check if there are any parameters at all
+        ld      hl,#0x100
+        ld      de,#_HEAP_start
+        ld      (hl),e
+        inc     hl
+        ld      (hl),d
+        ld      hl,#envvar
+        ld      bc,#0xff6b
+        call    #5
+
+        ;* Check if there are any command line parameters
 
         ld      a,(#0x80)
         or      a
-        ld      c,#0
+        ld      c,#1            ; c <- number of parameters
         jr      z,cont
         
         ;* Terminate command line with 0
@@ -51,22 +63,25 @@ init:   call    gsinit
         ld      de,#0xC000
         ld      bc,#parloopend-#parloop
         ldir
-        
+
         ;* Initialize registers and jump to the loop routine
         
         ld      hl,#0x81        ;Command line pointer
-        ld      c,#0            ;Number of params found
-        ld      ix,#0x100       ;Params table pointer
-        
+        ld      c,#1            ;Number of params found
+        ld      ix,#0x102       ;Params table pointer +2 as the first entry
+                                ;is taken by the program name
         ld      de,#cont        ;To continue execution at "cont"
         push    de              ;when the routine RETs
         jp      0xC000
         
+envvar: .asciz  "PROGRAM"
+
         ;>>> Command line processing routine begin
         
         ;* Loop over the command line: skip spaces
         
-parloop: ld      a,(hl)
+parloop:
+        ld      a,(hl)
         or      a       ;Command line end found?
         ret     z
 
@@ -111,16 +126,16 @@ parloopend:
 
 cont:   ld      hl,#0x100
         ld      b,#0
-        push    bc      ;Pass info as parameters to "main"
         push    hl
+        push    bc      ;Pass info as parameters to "main"
 
         ;--- Step 3: Call the "main" function
-	push de
-	ld de,#_HEAP_start
-	ld (_heap_top),de
-	pop de
+        push de
+        ld de,#_HEAP_start + 256    ; 256 bytes reserved for the program name
+        ld (_heap_top),de
+        pop de
 
-	call    _main
+        call    _main
 
         ;--- Step 4: Program termination.
         ;    Termination code for DOS 2 was returned on L.
@@ -134,23 +149,23 @@ cont:   ld      hl,#0x100
 
         ;--- Program code and data (global vars) start here
 
-	;* Place data after program code, and data init code after data
+        ;* Place data after program code, and data init code after data
 
-	.area	_CODE
-	.area	_DATA
+        .area   _CODE
+        .area   _DATA
 _heap_top::
-	.dw 0
+        .dw 0
 
 gsinit: .area   _GSINIT
 
         .area   _GSFINAL
         ret
 
-	;* These doesn't seem to be necessary... (?)
+        ;* These doesn't seem to be necessary... (?)
 
         ;.area  _OVERLAY
-	;.area	_HOME
+        ;.area  _HOME
         ;.area  _BSS
-	.area	_HEAP
+        .area   _HEAP
 
 _HEAP_start::

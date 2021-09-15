@@ -1,7 +1,7 @@
 
 
-#include "../includes/types.h"
-#include "../includes/heap.h"
+#include "../include/types.h"
+#include "../include/heap.h"
 
 
 void *malloc(uint16_t size) {

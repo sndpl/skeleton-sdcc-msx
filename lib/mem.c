@@ -1,7 +1,7 @@
 
 
-#include "../includes/types.h"
-#include "../includes/mem.h"
+#include "../include/types.h"
+#include "../include/mem.h"
 
 
 void memcpy(uint8_t *dest, uint8_t *src, uint16_t n) {
